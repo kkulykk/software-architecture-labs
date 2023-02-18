@@ -1,0 +1,9 @@
+GET http://localhost:4000/facade-service
+Accept: text/plain
+
+###
+
+POST http://localhost:4000/facade-service
+Content-Type: application/json
+
+{ "message" : "Testing facade service"}
