@@ -17,4 +17,4 @@
 ## This is Lab 1:
 <img width="762" alt="image" src="https://user-images.githubusercontent.com/72144618/222751088-c9ec7878-01cb-46af-93f6-5b0665a8bbff.png">
 
-[Back home](https://github.com/kkulykk/software-architecture-labs/main)
+[Back home](https://github.com/kkulykk/software-architecture-labs)
