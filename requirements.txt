@@ -1,0 +1,4 @@
+autopep8 @ file:///home/conda/feedstock_root/build_artifacts/autopep8_1677845287175/work
+hazelcast-python-client==5.1
+pycodestyle @ file:///home/conda/feedstock_root/build_artifacts/pycodestyle_1669306857274/work
+tomli @ file:///home/conda/feedstock_root/build_artifacts/tomli_1644342247877/work
