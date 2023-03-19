@@ -16,7 +16,7 @@
 
 ## Table of contents:
 1. Lab 1 – [Microservices basics](https://github.com/kkulykk/software-architecture-labs/tree/micro_basics)
-2. Lab 2 – [TBD](#)
+2. Lab 2 – [Hazelcast](https://github.com/kkulykk/software-architecture-labs/tree/hazelcast)
 3. Lab 3 – [TBD](#)
 4. Lab 4 – [TBD](#)
 5. Lab 5 – [TBD](#)
