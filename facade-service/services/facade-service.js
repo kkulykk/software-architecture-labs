@@ -28,6 +28,14 @@ export const getAllMessages = async (hostName, loggingPort, messagesPort, respon
     return `${allMessages} : ${messages}`
 }
 
+/**
+ * Record message via certain service
+ * @param hostName
+ * @param loggingPort
+ * @param content
+ * @param response
+ * @returns {Promise<*>}
+ */
 export const recordMessage = async (hostName, loggingPort, content, response) => {
     if (!content.message) {
         console.error('[FACADE]: Message not provided')
