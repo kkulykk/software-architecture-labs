@@ -14,7 +14,8 @@
 </div>
 
 
-## This is Lab 1:
-<img width="762" alt="image" src="https://user-images.githubusercontent.com/72144618/222751088-c9ec7878-01cb-46af-93f6-5b0665a8bbff.png">
+## This is Lab 3:
+<img width="690" alt="image" src="https://user-images.githubusercontent.com/72144618/229359223-fd6fc897-6e05-4c3a-bdeb-fb343722a9a4.png">
+
 
 [Back home](https://github.com/kkulykk/software-architecture-labs)
