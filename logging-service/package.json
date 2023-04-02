@@ -2,10 +2,10 @@
   "name": "logging-service",
   "version": "1.0.0",
   "description": "Logging service",
-  "main": "index.js",
+  "main": "controllers/logging-controller.js",
   "scripts": {
-    "serve": "nodemon index.js",
-    "start": "node index.js",
+    "serve": "PORT=4004 nodemon controllers/logging-controller.js",
+    "start": "node controllers/logging-controller.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,6 +16,7 @@
     "axios": "^1.3.3",
     "body-parser": "^1.20.1",
     "express": "^4.18.2",
+    "hazelcast-client": "^5.2.0",
     "nodemon": "^2.0.20",
     "uuid": "^9.0.0"
   }

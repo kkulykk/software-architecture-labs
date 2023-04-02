@@ -2,10 +2,10 @@
   "name": "facade-service",
   "version": "1.0.0",
   "description": "Facade service",
-  "main": "index.js",
+  "main": "controllers/facade-controller.js",
   "scripts": {
-    "serve": "nodemon index.js",
-    "start": "node index.js",
+    "serve": "nodemon controllers/facade-controller.js",
+    "start": "node controllers/facade-controller.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

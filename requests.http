@@ -1,4 +1,4 @@
-GET http://localhost:4000/facade-service
+GET http://localhost:4001/logging-service
 Accept: text/plain
 
 ###
@@ -6,4 +6,4 @@ Accept: text/plain
 POST http://localhost:4000/facade-service
 Content-Type: application/json
 
-{ "message" : "Testing facade service"}
+{ "message" : "msg10"}

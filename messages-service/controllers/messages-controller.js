@@ -1,6 +1,8 @@
 import express from "express"
 import bodyParser from 'body-parser';
 
+import {getMessages} from "../services/messages-service.js";
+
 const MESSAGES_PORT = 4002;
 const HOST_NAME = "localhost";
 
@@ -13,9 +15,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get("/messages-service", (request, response) => {
-    console.info('[MESSAGES]: Not implemented yet')
 
-    response.send(`Not implemented yet`);
+    const result = getMessages();
+
+    response.send(result);
 });
 
 app.listen(MESSAGES_PORT, HOST_NAME, () => {

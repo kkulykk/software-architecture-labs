@@ -2,10 +2,10 @@
   "name": "messages-service",
   "version": "1.0.0",
   "description": "Messages service",
-  "main": "index.js",
+  "main": "controllers/messages-controller.js",
   "scripts": {
-    "serve": "nodemon index.js",
-    "start": "node index.js",
+    "serve": "nodemon controllers/messages-controller.js",
+    "start": "node controllers/messages-controller.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

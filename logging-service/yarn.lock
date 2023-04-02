@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@types/long@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/long/-/long-4.0.0.tgz#719551d2352d301ac8b81db732acb6bdc28dbdef"
+  integrity sha512-1w52Nyx4Gq47uuu0EVcsHBxZFJgurQ+rTKS3qMHxR1GY2T8c2AJYd6vZoZ9q1rupaDjU0yT+Jc2XTyXkjeMA+Q==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -320,6 +325,14 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+hazelcast-client@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/hazelcast-client/-/hazelcast-client-5.2.0.tgz#332388a3d88166d8b49b44f74402d0a6949c1370"
+  integrity sha512-+gPBCaYyAs3VLKudAByhEieo1MgkG2i+6sC6Ho8VSvN0Y98k907AbSqIveHKOX3NKg3Tbr8gutdPmC4xeKWA3Q==
+  dependencies:
+    "@types/long" "4.0.0"
+    long "4.0.0"
+
 http-errors@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-2.0.0.tgz#b7774a1486ef73cf7667ac9ae0858c012c57b9d3"
@@ -376,6 +389,11 @@ is-number@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
+
+long@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
+  integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
 
 media-typer@0.3.0:
   version "0.3.0"
