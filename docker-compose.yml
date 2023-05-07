@@ -1,56 +1,112 @@
-version: "3"
+version: "3.9"
 
 services:
-  hazelcast-node-1:
+  hazelcast:
     image: hazelcast/hazelcast
-    container_name: hazelcast-node-1
+    networks:
+      - hazelcast-net
+    deploy:
+      replicas: 3
     volumes:
       - ./config.yml:/opt/hazelcast/config.yml
     environment:
       - HZ_CLUSTERNAME=lab-hazelcast
       - HAZELCAST_CONFIG=config.yml
+
+  zookeeper-server:
+    image: bitnami/zookeeper:latest
     ports:
-      - "5701:5701"
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOOKEEPER_CLIENT_PORT=2181
     networks:
       - hazelcast-net
 
-  hazelcast-node-2:
-    image: hazelcast/hazelcast
-    container_name: hazelcast-node-2
-    volumes:
-      - ./config.yml:/opt/hazelcast/config.yml
-    environment:
-      - HZ_CLUSTERNAME=lab-hazelcast
-      - HAZELCAST_CONFIG=config.yml
+  kafka-server:
+    image: bitnami/kafka:latest
     ports:
-      - "5702:5701"
+      - '29092:29092'
+    expose:
+      - "9092"
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper-server:2181
+      - KAFKA_ADVERTISED_PORT=9092
+    depends_on:
+      - zookeeper-server
+    healthcheck:
+      test: ["CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "kafka-server:9092"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
     networks:
       - hazelcast-net
 
-  hazelcast-node-3:
-    image: hazelcast/hazelcast
-    container_name: hazelcast-node-3
-    volumes:
-      - ./config.yml:/opt/hazelcast/config.yml
-    environment:
-      - HZ_CLUSTERNAME=lab-hazelcast
-      - HAZELCAST_CONFIG=config.yml
-    ports:
-      - "5703:5701"
+  setup-kafka:
+    image: bitnami/kafka:latest
+    depends_on:
+      - kafka-server
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics.sh --list --bootstrap-server kafka-server:9092
+
+      echo -e 'Creating kafka topics'
+      kafka-topics.sh --bootstrap-server kafka-server:9092 --create --if-not-exists --topic messages --replication-factor 1 --partitions 2
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics.sh --bootstrap-server kafka-server:9092 --list
+      "
     networks:
       - hazelcast-net
 
-  hazelcast-management-center:
-    image: hazelcast/management-center
-    container_name: hazelcast-management-center
+  facade-service:
+    image: nodejs
+    build:
+      context: .
+      dockerfile: facade-service/Dockerfile
+    command: yarn serve
     volumes:
-      - ./config.yml:/opt/hazelcast/config.yml
-    environment:
-      - MC_CLUSTER_MEMBERS=hazelcast-node-1:5701,hazelcast-node-2:5701,hazelcast-node-3:5701
-      - HZ_CLUSTERNAME=lab-hazelcast
-      - HAZELCAST_CONFIG=config.yml
+      - "./facade-service:/src/app"
+    working_dir: "/src/app"
+    networks:
+      - hazelcast-net
     ports:
-      - "8080:8080"
+      - "4000:4000"
+    depends_on:
+      kafka-server:
+        condition: service_healthy
+
+  logging-service:
+    image: nodejs
+    build:
+      context: .
+      dockerfile: logging-service/Dockerfile
+    command: yarn serve
+    volumes:
+      - "./logging-service:/src/app"
+    working_dir: "/src/app"
+    deploy:
+      replicas: 3
+    networks:
+        - hazelcast-net
+
+  messages-service:
+    image: nodejs
+    build:
+      context: .
+      dockerfile: messages-service/Dockerfile
+    command: yarn serve
+    depends_on:
+      kafka-server:
+        condition: service_healthy
+    volumes:
+      - "./messages-service:/src/app"
+    working_dir: "/src/app"
+    deploy:
+      replicas: 2
     networks:
       - hazelcast-net
 

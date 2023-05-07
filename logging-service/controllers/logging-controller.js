@@ -4,12 +4,19 @@ import {Client} from "hazelcast-client";
 
 import {getMessagesHazelcast, recordMessageHazelcast} from "../services/logging-service.js";
 
-const LOGGING_PORT = process.env.PORT || 4001;
-const HOST_NAME = "localhost";
+const LOGGING_PORT = 4001;
+const HOST_NAME = "0.0.0.0";
 
 const app = express();
 const client = await Client.newHazelcastClient({
-    clusterName: "lab-hazelcast"
+    clusterName: "lab-hazelcast",
+    network: {
+        clusterMembers: [
+            'software-architecture-labs-hazelcast-1',
+            'software-architecture-labs-hazelcast-2',
+            'software-architecture-labs-hazelcast-3'
+        ]
+    }
 });
 const messagesMap = await client.getMap('messagesMap');
 
@@ -22,14 +29,14 @@ app.use(bodyParser.json());
 app.get("/logging-service", async (request, response) => {
     const allMessages = await getMessagesHazelcast(messagesMap)
 
-    response.send(allMessages);
+    response.status(200).send(allMessages);
 });
 
 app.post("/logging-service", async (request, response) => {
     const content = request.body
     const messageId = await recordMessageHazelcast(messagesMap, content)
 
-    response.send(`Successfully saved message with id ${messageId}`);
+    response.status(200).send(`Successfully saved message with id ${messageId}`);
 });
 
 app.listen(LOGGING_PORT, HOST_NAME, () => {

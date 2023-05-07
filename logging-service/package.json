@@ -4,7 +4,7 @@
   "description": "Logging service",
   "main": "controllers/logging-controller.js",
   "scripts": {
-    "serve": "PORT=4004 nodemon controllers/logging-controller.js",
+    "serve": "nodemon controllers/logging-controller.js",
     "start": "node controllers/logging-controller.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
