@@ -28,7 +28,6 @@ export const getAllMessages = async (loggingService, loggingPort, messagesServic
         return result
     }
 
-    console.log(`http://${messagesService}:${messagesPort}/messages-service`)
     try {
         messages = (await axios.get(`http://${messagesService}:${messagesPort}/messages-service`)).data
     } catch (e) {
