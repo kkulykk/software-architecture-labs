@@ -14,7 +14,11 @@
 </div>
 
 
-## This is Lab 3:
+## This is Lab 4:
+Updated docker compose to automatically start all the services in the required amount. Added Kafka for communicating with messages service
+
+To run the code, hit `docker compose up` and wait about 30 seconds for the system to start
+
 <img width="690" alt="image" src="https://user-images.githubusercontent.com/72144618/229359223-fd6fc897-6e05-4c3a-bdeb-fb343722a9a4.png">
 
 
