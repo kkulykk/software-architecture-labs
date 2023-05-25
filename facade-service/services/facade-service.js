@@ -1,17 +1,23 @@
 import axios from "axios";
 import {v4 as uuidv4} from "uuid";
 import {Kafka} from "kafkajs";
+import {Consul} from "consul/lib/consul.js";
 
+const consul = new Consul({host: 'software-architecture-labs-consul-1', port: 8500});
+
+const [clientId, brokers, topic] = await Promise.all([consul.kv.get("kafka/client_id"),
+    consul.kv.get("kafka/brokers"), consul.kv.get("kafka/topic")])
 const kafka = new Kafka({
-    clientId: 'micro_mq',
-    brokers: ['kafka-server:9092']
+    clientId: clientId.Value,
+    brokers: [brokers.Value]
 })
 const producer = kafka.producer()
 
 /**
  * Get all messages from the logging or message services
- * @param hostName
+ * @param loggingService
  * @param loggingPort
+ * @param messagesService
  * @param messagesPort
  * @returns {Promise<*|string>}
  */
@@ -64,7 +70,7 @@ export const recordMessage = async (hostName, loggingPort, content) => {
 
     await producer.connect()
     await producer.send({
-        topic: 'messages',
+        topic: topic.Value,
         messages: [
             {
                 key: messageId,

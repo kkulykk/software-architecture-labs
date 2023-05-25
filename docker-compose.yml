@@ -76,8 +76,10 @@ services:
     ports:
       - "4000:4000"
     depends_on:
-      kafka-server:
-        condition: service_healthy
+      setup-consul:
+        condition: service_completed_successfully
+      setup-kafka:
+        condition: service_completed_successfully
 
   logging-service:
     image: nodejs
@@ -88,10 +90,13 @@ services:
     volumes:
       - "./logging-service:/src/app"
     working_dir: "/src/app"
+    depends_on:
+      setup-consul:
+        condition: service_completed_successfully
     deploy:
       replicas: 3
     networks:
-        - hazelcast-net
+      - hazelcast-net
 
   messages-service:
     image: nodejs
@@ -100,13 +105,47 @@ services:
       dockerfile: messages-service/Dockerfile
     command: yarn serve
     depends_on:
-      kafka-server:
-        condition: service_healthy
+      setup-consul:
+        condition: service_completed_successfully
+      setup-kafka:
+        condition: service_completed_successfully
     volumes:
       - "./messages-service:/src/app"
     working_dir: "/src/app"
     deploy:
       replicas: 2
+    networks:
+      - hazelcast-net
+
+  consul:
+    image: consul
+    ports:
+      - "8500:8500"
+    healthcheck:
+      test: [ "CMD", "consul", "members" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - hazelcast-net
+
+  setup-consul:
+    image: consul
+    depends_on:
+      consul:
+        condition: service_healthy
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "            
+      consul kv put -http-addr=software-architecture-labs-consul-1:8500 hazelcast/cluster_name "lab-hazelcast" 
+      consul kv put -http-addr=software-architecture-labs-consul-1:8500 hazelcast/cluster_members "software-architecture-labs-hazelcast-1,software-architecture-labs-hazelcast-2,software-architecture-labs-hazelcast-3"
+      consul kv put -http-addr=software-architecture-labs-consul-1:8500 hazelcast/map_name "messagesMap"
+      consul kv put -http-addr=software-architecture-labs-consul-1:8500 kafka/client_id "micro_mq2"
+      consul kv put -http-addr=software-architecture-labs-consul-1:8500 kafka/brokers "kafka-server:9092"
+      consul kv put -http-addr=software-architecture-labs-consul-1:8500 kafka/group_id "test-group"
+      consul kv put -http-addr=software-architecture-labs-consul-1:8500 kafka/topic "messages"
+      "
     networks:
       - hazelcast-net
 
