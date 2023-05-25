@@ -19,5 +19,5 @@
 2. Lab 2 – [Hazelcast](https://github.com/kkulykk/software-architecture-labs/tree/hazelcast)
 3. Lab 3 – [Microservices with Hazelcas](https://github.com/kkulykk/software-architecture-labs/tree/micro_hazelcast)
 4. Lab 4 – [MQ](https://github.com/kkulykk/software-architecture-labs/tree/micro_mq)
-5. Lab 5 – [TBD](#)
+5. Lab 5 – [Consul](https://github.com/kkulykk/software-architecture-labs/tree/micro_consul)
 
