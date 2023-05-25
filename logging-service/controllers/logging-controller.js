@@ -29,9 +29,7 @@ for (const service of instances) {
     }
 }
 
-const clusterName = await consul.kv.get("hazelcast/cluster_name");
-const clusterMembers = await consul.kv.get("hazelcast/cluster_members");
-const mapName = await consul.kv.get("hazelcast/map_name");
+const [clusterName, clusterMembers, mapName] = await Promise.all([consul.kv.get("hazelcast/cluster_name"), consul.kv.get("hazelcast/cluster_members"), consul.kv.get("hazelcast/map_name")])
 
 const app = express();
 const client = await Client.newHazelcastClient({
